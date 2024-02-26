@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from './users.service';
 import { FormsModule } from '@angular/forms';
 import { User } from './user.model';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink,RouterLinkActive],
   template: `
     <!-- zasto nece ove tri linije linija -->
     <!-- <input type="text" placeholder="search term..." [ngModel]="query" (ngModelChange)="search_q()"/> -->
@@ -32,7 +33,8 @@ import { User } from './user.model';
     <p *ngIf="isLoading">Loading...</p>
     <ul>
       <li *ngFor="let user of users" (click)="stampajIme(user)">
-        {{ user.firstName + ' ' + user.lastName }}
+        <!-- {{ user.firstName + ' ' + user.lastName }} -->
+        <a routerLink="/user/{{user.id}}" routerLinkActive="active" >{{ user.firstName + ' ' + user.lastName }}</a>
       </li>
     </ul>
     <div *ngIf="resultUsers.length >= 1">

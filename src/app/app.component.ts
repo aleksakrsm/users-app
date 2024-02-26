@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './layout/header.component';
 import { FooterComponent } from './layout/footer.component';
 import { UsersComponent } from './users/users.component';
+import { RouterOutlet } from '@angular/router';
 import { Observable, filter, interval, map, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, UsersComponent],
+  imports: [CommonModule, HeaderComponent, FooterComponent, UsersComponent,RouterOutlet],
   template: `
     <app-header></app-header>
+    
     <div class="body">
-      <app-users></app-users>
+      <!-- <app-users></app-users> -->
+      <router-outlet></router-outlet>
     </div>
     <app-footer></app-footer>
   `,
@@ -80,18 +83,6 @@ export class AppComponent {
     //   complete: () => console.log('gotovo!'),
     //   error: (err) => console.log(err)
     // });
-
-    
-
-
-
-
-
-
-
-
-
-
   }
 }
 

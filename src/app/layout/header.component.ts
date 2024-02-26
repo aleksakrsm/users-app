@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink,RouterLinkActive],
   template: `
     <ul>
+      <li><a routerLink="/home" routerLinkActive="active" >Home</a></li>
+      <li><a routerLink="/users" routerLinkActive="active" >Users</a></li>
     </ul>
   `,
   styles: [

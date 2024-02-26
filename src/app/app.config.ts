@@ -1,8 +1,37 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { Route, provideRouter } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './users/users.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
-
+export const appRouts: Route[] = [
+  {
+    path: "user/:id",
+    title:"user",
+    component: UserEditComponent,
+  },
+  {
+    path: "users",
+    title:"Users",
+    component: UsersComponent,
+  },
+  {
+    path: "home",
+    title:"Home",
+    component: HomeComponent,
+  },
+  {
+    path: "",
+    title:"Home",
+    component: HomeComponent,
+  },
+  {
+    path: "**",
+    redirectTo:""
+  }
+];
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient()]
+  providers: [provideHttpClient(), provideRouter(appRouts)],
 };

@@ -1,0 +1,27 @@
+<p>user-edit works!</p>
+{{ id }} je vracen iz baze
+<div *ngIf="user">
+  {{ user.firstName }}
+
+  <h1>User {{ user.firstName }} {{ user.lastName }}</h1>
+  <br />
+  <label for="firstname">Firstname</label>
+  <input
+    type="text"
+    id="firstname"
+    name="firstname1"
+    placeholder="{{ user.firstName }}"
+  />
+  <br />
+  <label for="lastname">Lastname</label>
+  <!-- <input type="text" id="lastname" name="lastname1" placeholder={{user.lastName}} #lName> -->
+  <input
+    type="text"
+    id="lastname"
+    name="lastname1"
+    placeholder="{{ user.lastName }}"
+    (keyup)="keyUp($event)"
+  />
+  <br />
+  <input type="button" value="Save" (click)="saveChanges()" />
+</div>
