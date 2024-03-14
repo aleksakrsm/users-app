@@ -1,7 +1,6 @@
-<p>user-edit works!</p>
-{{ id }} je vracen iz baze
-<div *ngIf="user">
-  {{ user.firstName }}
+<!-- {{ id }} je vracen iz baze -->
+<p *ngIf="!user">Loading...</p>
+<!-- <div *ngIf="user">
 
   <h1>User {{ user.firstName }} {{ user.lastName }}</h1>
   <br />
@@ -14,7 +13,6 @@
   />
   <br />
   <label for="lastname">Lastname</label>
-  <!-- <input type="text" id="lastname" name="lastname1" placeholder={{user.lastName}} #lName> -->
   <input
     type="text"
     id="lastname"
@@ -24,4 +22,9 @@
   />
   <br />
   <input type="button" value="Save" (click)="saveChanges()" />
-</div>
+</div> -->
+
+<app-user-form *ngIf="user" [user]="user" (eventEmiter)="stampaj('edit komponenta'); saveUpdated($event)"></app-user-form>
+
+<!-- <app-user-form *ngIf="user" [user]="user" (eventEmiter)="saveUpdated($event)"></app-user-form> -->
+<!-- <app-user-form *ngIf="user" [user]="user" (eventEmiter)="stampaj("edit komponenta")"></app-user-form> -->

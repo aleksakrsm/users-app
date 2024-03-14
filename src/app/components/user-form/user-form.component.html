@@ -1,0 +1,97 @@
+<div>
+  <h1>EDIT USER with id: {{ user_id }}</h1>
+</div>
+<!-- {{ myUser | json }} iz forme -->
+<form [formGroup]="formGroup">
+  <div>
+    <label for="firstname">Firstname: </label>
+    <input
+      type="text"
+      id="firstname"
+      placeholder="firstname"
+      formControlName="firstName"
+    />
+    <!--    TODO     -->
+    <!-- error check -->
+    <!-- <div *ngIf="formGroup.get('firstName').errors?.['pattern']">
+        ne sme na
+    </div> -->
+    <!-- <div *ngIf="formGroup.errors?.['required']">
+        required
+    </div> -->
+  </div>
+  <div>
+    <label for="lastname">Lastname: </label>
+    <input
+      type="text"
+      id="lastname"
+      placeholder="lastname"
+      formControlName="lastName"
+    />
+    <!--    TODO     -->
+    <!-- error check -->
+  </div>
+
+  <div formGroupName="adress">
+    <h2>Adress:</h2>
+    <label for="town">Town: </label>
+    <!--    TODO     -->
+    <!-- error check -->
+    <input id="town" type="text" formControlName="town" />
+    <br />
+    <label for="zipcode">Zipcode: </label>
+    <input id="zipcode" type="text" formControlName="zipcode" />
+    <!--    TODO     -->
+    <!-- error check -->
+  </div>
+  <!--    TODO     -->
+  <!-- error check -->
+
+  <div *ngIf="myUser.aliases.length" formArrayName="aliases">
+    <h2>Current aliases</h2>
+    <!-- zelim da menjam vec postojece controle alijasa -->
+    <!-- <div *ngFor="let item of myUser.aliases; let i = index">  -->
+    <div *ngFor="let alias of aliases.controls; let i = index">
+      <div *ngIf="i < numOfAliasses">
+        <label for="alias-{{ i }}">Alias {{ i }}:</label>
+        <input id="alias-{{ i }}" type="text" [formControlName]="i" />
+
+        <!-- error check -->
+        <div *ngIf="alias.errors?.['required']">Can not be empty</div>
+        <div *ngIf="alias.errors?.['pattern']">ne sme n/a</div>
+        <div *ngIf="alias.errors?.['failedRegExp']">
+          Pocetno slovo mora biti veliko......
+        </div>
+      </div>
+    </div>
+  </div>
+  <div formArrayName="aliases">
+    <h2>Aliases</h2>
+    <button type="button" (click)="addAlias('')">+ Add another alias</button>
+    <div *ngFor="let alias of aliases.controls; let i = index">
+      <div *ngIf="i >= numOfAliasses">
+        <label for="alias-{{ i }}">Alias {{ i }}:</label>
+        <input id="alias-{{ i }}" type="text" [formControlName]="i" />
+        <!-- error check -->
+        <div *ngIf="alias.errors?.['required']">Can not be empty</div>
+        <div *ngIf="alias.errors?.['pattern']">ne sme n/a</div>
+        <div *ngIf="alias.errors?.['failedRegExp']">
+          Pocetno slovo mora bit veliko......
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- error check -->
+  <div *ngIf="aliases.errors?.['repeatedaliases']">
+    All aliases must be unique.
+  </div>
+  <input
+    type="button"
+    value="Save"
+    (click)="onSave()"
+    [disabled]="formGroup.valid == false"
+  />
+  {{ formGroup.valid }}
+</form>
+
+<!-- <input type="button" (click) = "stampaj()"> -->

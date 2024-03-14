@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { User } from './user.model';
+import { User } from '../model/user.model';
 import { Injectable, inject } from '@angular/core';
 // import { CommonModule} from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -11,9 +11,7 @@ const USERS_API_URL = 'http://localhost:3001/users';
   providedIn: 'root',
 })
 export class UsersService {
-  //   private http = inject(HttpClient);
-  //     constructor(private http: HttpClient){
-  //     }
+  //     constructor(private http: HttpClient){}
   
   private http = inject(HttpClient);
   
@@ -27,14 +25,4 @@ export class UsersService {
   editUser(user:User):Observable<User>{
     return this.http.put<User>(`${USERS_API_URL}/${user.id}`,user);
   }
-
-//   getAll(): User[] {
-    // return [
-    //   { firstName: 'marko', lastName: 'markovic', id: 1 },
-    //   { firstName: 'todor', lastName: 'todorovic', id: 2 }
-    //   { firstName: 'stefan', lastName: 'stefanovic', id: 3 },
-    // ];
-//   }
-
-
 }

@@ -5,11 +5,12 @@ import { FooterComponent } from './layout/footer.component';
 import { UsersComponent } from './users/users.component';
 import { RouterOutlet } from '@angular/router';
 import { Observable, filter, interval, map, take, tap } from 'rxjs';
+import { JsonPipeComponent } from './home/JsonPipeComponent';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, UsersComponent,RouterOutlet],
+  imports: [CommonModule, HeaderComponent, FooterComponent, UsersComponent,RouterOutlet,JsonPipeComponent],
   template: `
     <app-header></app-header>
     
@@ -18,6 +19,7 @@ import { Observable, filter, interval, map, take, tap } from 'rxjs';
       <router-outlet></router-outlet>
     </div>
     <app-footer></app-footer>
+    <!-- <json-pipe></json-pipe> -->
   `,
   styleUrls: ['./app.component.scss'],
 })

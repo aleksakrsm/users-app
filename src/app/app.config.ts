@@ -6,30 +6,45 @@ import { UsersComponent } from './users/users.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 
 export const appRouts: Route[] = [
+  // {
+  //   path: "user/:id",
+  //   title:"user",
+  //   component: UserEditComponent,
+  // },
+  // {
+  //   path: "users",
+  //   title:"Users",
+  //   component: UsersComponent,
+  // },
   {
-    path: "user/:id",
-    title:"user",
-    component: UserEditComponent,
+    path: 'users',
+    children: [
+      {
+        path: '',
+        title: 'Users',
+        component: UsersComponent
+      },
+      {
+        path: ':id',
+        title: 'Edit user',
+        component: UserEditComponent
+      },
+    ],
   },
   {
-    path: "users",
-    title:"Users",
-    component: UsersComponent,
-  },
-  {
-    path: "home",
-    title:"Home",
+    path: 'home',
+    title: 'Home',
     component: HomeComponent,
   },
   {
-    path: "",
-    title:"Home",
+    path: '',
+    title: 'Home',
     component: HomeComponent,
   },
   {
-    path: "**",
-    redirectTo:""
-  }
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 export const appConfig: ApplicationConfig = {

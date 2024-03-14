@@ -7,44 +7,42 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsersService } from './users.service';
+import { UsersService } from '../service/users.service';
 import { FormsModule } from '@angular/forms';
-import { User } from './user.model';
+import { User } from '../model/user.model';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { SearchBoxComponent } from '../components/search-box/search-box.component';
+import { delay } from 'rxjs';
+import { UsersListComponent } from '../components/users-list/users-list.component';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink,RouterLinkActive],
+  imports: [CommonModule, FormsModule, RouterLink,RouterLinkActive,SearchBoxComponent,UsersListComponent],
   template: `
-    <!-- zasto nece ove tri linije linija -->
-    <!-- <input type="text" placeholder="search term..." [ngModel]="query" (ngModelChange)="search_q()"/> -->
-    <!-- <input type="text" placeholder="search term..."  [ngModel]="" (ngModelChange)="search($event)"/> -->
-    <!-- <input type="text" placeholder="search term..."  (ngModelChange)="search($event)"/> -->
-    
-    
-    
     <!-- <input type="text" placeholder="search term..." [ngModel]="query" (ngModelChange)="query = $event; search_q();"> -->
     <!-- <input type="text" placeholder="search term..." [(ngModel)]="query" (ngModelChange)="search_q()"> -->
     <!-- <input type="text" placeholder="search term..."  [ngModel]="query" (ngModelChange)="search($event)"/> -->
-    <input type="text" placeholder="search term..." (keyup)="onKey($event)">
 
-
+    <!-- <input type="text" placeholder="search term..." (keyup)="onKey($event)"> -->
+    <app-search-box (newTerm)="search($event)"></app-search-box>
     <p *ngIf="isLoading">Loading...</p>
-    <ul>
-      <li *ngFor="let user of users" (click)="stampajIme(user)">
-        <!-- {{ user.firstName + ' ' + user.lastName }} -->
-        <a routerLink="/user/{{user.id}}" routerLinkActive="active" >{{ user.firstName + ' ' + user.lastName }}</a>
-      </li>
-    </ul>
+    <app-users-list [usersCompList]="users" [isLink]="true"></app-users-list>
     <div *ngIf="resultUsers.length >= 1">
-      <p>Search results for : {{ query }}</p>
-      <ul>
+      <p>Search result:</p>
+      <app-users-list [usersCompList]="resultUsers" [isLink]="false"></app-users-list>
+    </div>
+    <!-- {{users | json}} -->
+    <!-- <ul>
+      <li *ngFor="let user of users" (click)="stampajIme(user)">
+        <a routerLink="/users/{{user.id}}" routerLinkActive="active" >{{ user.firstName + ' ' + user.lastName }}</a>
+      </li>
+    </ul> -->
+      <!-- <ul>
         <li *ngFor="let user of resultUsers">
           {{ user.firstName + ' ' + user.lastName }}
         </li>
-      </ul>
-    </div>
+      </ul> -->
   `,
 })
 export class UsersComponent implements OnInit {
@@ -58,28 +56,12 @@ export class UsersComponent implements OnInit {
   users: User[] = [];
   resultUsers: User[] = [];
   isLoading = true;
-  query = '';
 
   ngOnInit(): void {
-    // console.log('dafsag');
-    // this.users = this.usersService.getAll().subscribe();
-    this.usersService.getAll().subscribe((users) => {
+    this.usersService.getAll().pipe(delay(500)).subscribe((users) => {
       this.users = users;
       this.isLoading = false;
     });
-  }
-  stampajIme(_t7: User) {
-    console.log(_t7.firstName);
-  }
-  search_q(): void {
-    console.log(this.query);
-    if (!this.query || this.query.length == 0) {
-      this.resultUsers = [];
-      return;
-    }
-    this.resultUsers = this.users.filter((user) =>
-      user.firstName.toLowerCase().includes(this.query.toLowerCase())
-    );
   }
   search(term: string): void {
     console.log(term);
@@ -88,12 +70,23 @@ export class UsersComponent implements OnInit {
       return;
     }
     this.resultUsers = this.users.filter((user) =>
-      user.firstName.toLowerCase().includes(term.toLowerCase())
+    user.firstName.toLowerCase().includes(term.toLowerCase())
     );
   }
   onKey(event:any){
-    // this.query = event.target.value;
-    // this.search_q();
     this.search(event.target.value)
   }
+  // stampajIme(_t7: User) {
+  //   console.log(_t7.firstName);
+  // }
+  // search_q(): void {
+  //   console.log(this.query);
+  //   if (!this.query || this.query.length == 0) {
+  //     this.resultUsers = [];
+  //     return;
+  //   }
+  //   this.resultUsers = this.users.filter((user) =>
+  //     user.firstName.toLowerCase().includes(this.query.toLowerCase())
+  //   );
+  // }
 }
